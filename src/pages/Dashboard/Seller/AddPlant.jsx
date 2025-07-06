@@ -1,5 +1,6 @@
 import axios from "axios";
 import AddPlantForm from "../../../components/Form/AddPlantForm";
+import { imageUpload } from "../../../reuseable/utlis";
 
 const AddPlant = () => {
   const handleAddPlantForm = async (event) => {
@@ -10,16 +11,11 @@ const AddPlant = () => {
     const price = form.price.value;
     const quantity = form.quantity.value;
     const image = form.image.files[0];
-    const plantData = { category, description, price, quantity, image };
-    console.log(plantData);
 
-    const { data } = await axios.post(
-      `https://api.imgbb.com/1/upload?key=${
-        import.meta.env.VITE_IMGBB_API_KEY
-      }`,
-      image
-    );
-    console.log(data);
+    const imgUrl = await imageUpload(image);
+    const plantData = { category, description, price, quantity, image: imgUrl };
+
+    console.table(plantData);
   };
   return (
     <div>
