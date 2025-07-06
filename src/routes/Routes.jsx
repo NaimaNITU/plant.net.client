@@ -23,6 +23,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
+        loader: async () => fetch("http://localhost:3000/plants"), //here we can access data from any child which have in home page
         element: <Home />,
       },
       {
