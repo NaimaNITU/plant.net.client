@@ -9,7 +9,7 @@ const AddPlant = () => {
     const description = form.description.value;
     const price = form.price.value;
     const quantity = form.quantity.value;
-    const image = form.image.files;
+    const image = form.image.files[0];
     const plantData = { category, description, price, quantity, image };
     console.log(plantData);
 
