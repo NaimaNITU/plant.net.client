@@ -14,8 +14,10 @@ const AddPlant = () => {
 
     const imgUrl = await imageUpload(image);
     const plantData = { category, description, price, quantity, image: imgUrl };
-
     console.table(plantData);
+
+    //now send the data to database
+    await axios.post(`${import.meta.env.VITE_API_URL}/add-plant`, plantData);
   };
   return (
     <div>
