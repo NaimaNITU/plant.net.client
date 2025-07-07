@@ -1,7 +1,9 @@
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 
-const PurchaseModal = ({ closeModal, isOpen }) => {
+const PurchaseModal = ({ closeModal, isOpen, plant, user }) => {
+  // console.log(user);
   // Total Price Calculation
+  const { name, category, price, quantity } = plant || {};
 
   return (
     <Dialog
@@ -23,20 +25,44 @@ const PurchaseModal = ({ closeModal, isOpen }) => {
               Review Info Before Purchase
             </DialogTitle>
             <div className="mt-2">
-              <p className="text-sm text-gray-500">Plant: Money Plant</p>
+              <p className="text-sm text-gray-500">Plant: {name}</p>
             </div>
             <div className="mt-2">
-              <p className="text-sm text-gray-500">Category: Indoor</p>
+              <p className="text-sm text-gray-500">Category: {category}</p>
             </div>
             <div className="mt-2">
-              <p className="text-sm text-gray-500">Customer: PH</p>
+              <p className="text-sm text-gray-500">
+                Customer: {user?.displayName}
+              </p>
             </div>
 
             <div className="mt-2">
-              <p className="text-sm text-gray-500">Price: $ 120</p>
+              <p className="text-sm text-gray-500">Price per unit: $ {price}</p>
             </div>
             <div className="mt-2">
-              <p className="text-sm text-gray-500">Available Quantity: 5</p>
+              <p className="text-sm text-gray-500">
+                Available Quantity: {quantity}
+              </p>
+            </div>
+            <div className="my-2">
+              <input
+                type="number"
+                min={1}
+                max={quantity}
+                className="border border-gray-300 px-2  rounded-md w-1/2"
+                placeholder="Select order quantity"
+              />
+            </div>
+
+            <hr />
+            <p className="mt-6 text-sm ">Order Info:</p>
+            <div>
+              <p className="text-sm text-green-500">
+                Selected Quantity: {quantity}
+              </p>
+            </div>
+            <div>
+              <p className="text-sm text-green-500">Total price: {quantity}</p>
             </div>
           </DialogPanel>
         </div>

@@ -4,16 +4,19 @@ import Button from "../../components/Shared/Button/Button";
 import PurchaseModal from "../../components/Modal/PurchaseModal";
 import { useState } from "react";
 import { useLoaderData } from "react-router";
+import useAuth from "./../../hooks/useAuth";
 
 const PlantDetails = () => {
+  const { user } = useAuth();
   let [isOpen, setIsOpen] = useState(false);
   const clickedPlant = useLoaderData();
   // here if anyone tries to access this page without clicking on a plant or if they type wrong url we can handle this like if(!clickedPlant || typeof clickedPlant !== "object")
   if (!clickedPlant || typeof clickedPlant !== "object")
     return <div className="text-center">No plant found in this page</div>;
+
   const { name, category, description, price, image, seller, quantity } =
     clickedPlant || {};
-  console.log(clickedPlant);
+  // console.log(clickedPlant);
 
   const closeModal = () => {
     setIsOpen(false);
@@ -83,12 +86,21 @@ const PlantDetails = () => {
           <div className="flex justify-between">
             <p className="font-bold text-3xl text-gray-500">Price: {price}$</p>
             <div>
-              <Button onClick={() => setIsOpen(true)} label="Purchase" />
+              <Button
+                disabled={!user}
+                onClick={() => setIsOpen(true)}
+                label={user ? "Buy Now" : "Login To Buy"}
+              />
             </div>
           </div>
           <hr className="my-6" />
 
-          <PurchaseModal closeModal={closeModal} isOpen={isOpen} />
+          <PurchaseModal
+            user={user}
+            plant={clickedPlant}
+            closeModal={closeModal}
+            isOpen={isOpen}
+          />
         </div>
       </div>
     </Container>
