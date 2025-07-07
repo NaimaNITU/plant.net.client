@@ -1,4 +1,4 @@
-const AddPlantForm = ({ handleAddPlantForm }) => {
+const AddPlantForm = ({ handleAddPlantForm, isUploading }) => {
   return (
     <div className="w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50">
       <form onSubmit={handleAddPlantForm}>
@@ -107,7 +107,7 @@ const AddPlantForm = ({ handleAddPlantForm }) => {
               type="submit"
               className="w-full p-3 mt-5 text-center font-medium text-white transition duration-200 rounded shadow-md bg-lime-500 hover:cursor-pointer "
             >
-              Save & Continue
+              {isUploading ? "Saving..." : "Add Plant"}
             </button>
           </div>
         </div>

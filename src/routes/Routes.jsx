@@ -27,7 +27,9 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/plant/:id",
+        path: "/plants/:id",
+        loader: async ({ params }) =>
+          fetch(`${import.meta.env.VITE_API_URL}/plants/${params.id}`),
         element: <PlantDetails />,
       },
     ],
