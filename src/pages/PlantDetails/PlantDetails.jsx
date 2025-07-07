@@ -8,6 +8,9 @@ import { useLoaderData } from "react-router";
 const PlantDetails = () => {
   let [isOpen, setIsOpen] = useState(false);
   const clickedPlant = useLoaderData();
+  // here if anyone tries to access this page without clicking on a plant or if they type wrong url we can handle this like if(!clickedPlant || typeof clickedPlant !== "object")
+  if (!clickedPlant || typeof clickedPlant !== "object")
+    return <div className="text-center">No plant found in this page</div>;
   const { name, category, description, price, image, seller, quantity } =
     clickedPlant || {};
   console.log(clickedPlant);

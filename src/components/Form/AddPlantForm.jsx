@@ -1,4 +1,10 @@
-const AddPlantForm = ({ handleAddPlantForm, isUploading }) => {
+const AddPlantForm = ({
+  handleAddPlantForm,
+  isUploading,
+  handleImageUpload,
+  imgUploadErr,
+  imgUpload,
+}) => {
   return (
     <div className="w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50">
       <form onSubmit={handleAddPlantForm}>
@@ -84,10 +90,11 @@ const AddPlantForm = ({ handleAddPlantForm, isUploading }) => {
             {/* Image */}
             <div className=" p-4  w-full  m-auto rounded-lg flex-grow">
               <div className="file_upload px-5 py-3 relative border-4 border-dotted border-gray-300 rounded-lg">
-                <div className="flex flex-col w-max mx-auto text-center">
+                <div className="flex items-center gap-2  w-max mx-auto text-center">
                   <label>
                     <input
                       className="text-sm cursor-pointer w-36 hidden"
+                      onChange={handleImageUpload}
                       type="file"
                       name="image"
                       id="image"
@@ -98,6 +105,18 @@ const AddPlantForm = ({ handleAddPlantForm, isUploading }) => {
                       Upload
                     </div>
                   </label>
+                  <div>
+                    {imgUpload && (
+                      <img
+                        src={imgUpload}
+                        alt="imgUpload"
+                        className="w-10 h-10 rounded object-cover"
+                      />
+                    )}
+                  </div>
+                  {imgUploadErr && (
+                    <p className="text-red-300">{imgUploadErr}</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -107,7 +126,7 @@ const AddPlantForm = ({ handleAddPlantForm, isUploading }) => {
               type="submit"
               className="w-full p-3 mt-5 text-center font-medium text-white transition duration-200 rounded shadow-md bg-lime-500 hover:cursor-pointer "
             >
-              {isUploading ? "Saving..." : "Add Plant"}
+              {isUploading ? "Saving..." : "Save"}
             </button>
           </div>
         </div>
