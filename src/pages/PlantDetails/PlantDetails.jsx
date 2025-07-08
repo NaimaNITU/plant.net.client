@@ -16,8 +16,6 @@ const PlantDetails = () => {
 
   const { name, category, description, price, image, seller, quantity } =
     clickedPlant || {};
-  // console.log(clickedPlant);
-
   const closeModal = () => {
     setIsOpen(false);
   };

@@ -26,8 +26,8 @@ const AddPlant = () => {
         name,
         category,
         description,
-        price,
-        quantity,
+        price: parseInt(price),
+        quantity: parseInt(quantity),
         image: imgUpload,
 
         //though the plant is added by seller, we need to add the seller details

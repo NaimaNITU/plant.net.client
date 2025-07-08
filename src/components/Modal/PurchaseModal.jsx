@@ -3,10 +3,24 @@ import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import toast from "react-hot-toast";
 
 const PurchaseModal = ({ closeModal, isOpen, plant, user }) => {
-  const { name, category, price, quantity } = plant || {};
+  const { name, category, price, quantity, _id, seller, image } = plant || {};
 
-  const [selectedQty, setSelectedQty] = useState("1");
+  const [selectedQty, setSelectedQty] = useState(1);
   const [totalPrice, setTotalPrice] = useState(price);
+  const [orderData, setOrderData] = useState({
+    customer: {
+      name: user?.displayName,
+      email: user?.email,
+      image: user?.photoURL,
+    },
+    seller,
+    plantId: _id,
+    quantity: 1,
+    price: price,
+    plantName: name,
+    plantCategory: category,
+    plantImage: image,
+  });
 
   const handleQtyChange = (typedValue) => {
     const totalSelectedQty = parseInt(typedValue);
@@ -22,7 +36,15 @@ const PurchaseModal = ({ closeModal, isOpen, plant, user }) => {
     const calculatedPrice = totalSelectedQty * price;
     setSelectedQty(totalSelectedQty);
     setTotalPrice(calculatedPrice);
+
+    setOrderData((prev) => ({
+      ...prev,
+      quantity: totalSelectedQty,
+      price: calculatedPrice,
+    }));
   };
+
+  console.log(orderData);
 
   return (
     <Dialog
