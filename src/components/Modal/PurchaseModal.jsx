@@ -1,22 +1,28 @@
 import { useState } from "react";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
+import toast from "react-hot-toast";
 
 const PurchaseModal = ({ closeModal, isOpen, plant, user }) => {
   const { name, category, price, quantity } = plant || {};
 
-  const [selectedQty, setSelectedQty] = useState("1"); // keep as string
+  const [selectedQty, setSelectedQty] = useState("1");
+  const [totalPrice, setTotalPrice] = useState(price);
 
-  const handleQtyChange = (e) => {
-    const value = e.target.value;
-    // Allow only digits or empty string
-    if (/^\d*$/.test(value)) {
-      setSelectedQty(value);
+  const handleQtyChange = (typedValue) => {
+    const totalSelectedQty = parseInt(typedValue);
+
+    if (totalSelectedQty > quantity) {
+      return toast.error(
+        `Only ${quantity} units available, you cannot purchase more.`
+      );
     }
+    if (totalSelectedQty < 1) {
+      return toast.error("You cannot purchase less than 1 unit.");
+    }
+    const calculatedPrice = totalSelectedQty * price;
+    setSelectedQty(totalSelectedQty);
+    setTotalPrice(calculatedPrice);
   };
-
-  // Convert string to number for calculation, fallback to 0
-  const numericQty = parseInt(selectedQty) || 0;
-  const totalPrice = numericQty * price;
 
   return (
     <Dialog
@@ -47,9 +53,8 @@ const PurchaseModal = ({ closeModal, isOpen, plant, user }) => {
               <input
                 type="number"
                 min={1}
-                max={quantity}
                 value={selectedQty}
-                onChange={handleQtyChange}
+                onChange={(e) => handleQtyChange(e.target.value)}
                 className="border border-gray-300 px-2 py-1 rounded-md w-1/2"
                 placeholder="Select order quantity"
               />
@@ -60,7 +65,7 @@ const PurchaseModal = ({ closeModal, isOpen, plant, user }) => {
             <div className="mt-4">
               <p className="text-sm font-medium">Order Info:</p>
               <p className="text-sm text-green-500">
-                Selected Quantity: {numericQty}
+                Selected Quantity: {selectedQty}
               </p>
               <p className="text-sm text-green-500">
                 Total Price: ${totalPrice}
