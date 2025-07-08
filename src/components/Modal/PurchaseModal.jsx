@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import toast from "react-hot-toast";
+import { Elements } from "@stripe/react-stripe-js";
+import CheckoutForm from "../Form/CheckoutForm";
+import { loadStripe } from "@stripe/stripe-js";
+// Make sure to call `loadStripe` outside of a component’s render to avoid
+// recreating the `Stripe` object on every render.
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK);
 
 const PurchaseModal = ({ closeModal, isOpen, plant, user }) => {
   const { name, category, price, quantity, _id, seller, image } = plant || {};
@@ -93,6 +99,15 @@ const PurchaseModal = ({ closeModal, isOpen, plant, user }) => {
                 Total Price: ${totalPrice}
               </p>
             </div>
+
+            {/* stripe component here */}
+            <Elements stripe={stripePromise}>
+              <CheckoutForm
+                totalPrice={totalPrice}
+                orderData={orderData}
+                closeModal={closeModal}
+              />
+            </Elements>
           </DialogPanel>
         </div>
       </div>
